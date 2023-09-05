@@ -1,10 +1,10 @@
-# NestJS REST API boilerplate 🇺🇦
+# Microservice boilerplate for SamagraX
 
 ![github action status](https://github.com/brocoders/nestjs-boilerplate/actions/workflows/docker-e2e.yml/badge.svg)
 
 ## Description
 
-NestJS REST API boilerplate for typical project
+Microservice boilerplate for SamagraX
 
 [Full documentation here](https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md)
 
