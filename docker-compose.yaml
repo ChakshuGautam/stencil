@@ -10,25 +10,16 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
 
-  maildev:
-    build:
-      context: .
-      dockerfile: maildev.Dockerfile
+  shadow-postgres:
+    image: postgres:15.3-alpine
     ports:
-      - ${MAIL_CLIENT_PORT}:1080
-      - ${MAIL_PORT}:1025
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
-
-  # Uncomment to use redis
-  # redis:
-  #   image: redis:7-alpine
-  #   ports:
-  #     - 6379:6379
+      - ${SHADOW_DATABASE_PORT}:5432
+    volumes:
+      - ./.data/shadow-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${SHADOW_DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${SHADOW_DATABASE_PASSWORD}
+      POSTGRES_DB: ${SHADOW_DATABASE_NAME}
 
   api:
     build:
