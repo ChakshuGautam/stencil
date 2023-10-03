@@ -6,7 +6,7 @@ https://nestjs-boilerplate-test.herokuapp.com/docs
 
 ## Features
 
-- [x] Database ([typeorm](https://www.npmjs.com/package/typeorm)).
+- [x] Database ([Prisma](https://www.npmjs.com/package/prisma)).
 - [x] Seeding.
 - [x] Config Service ([@nestjs/config](https://www.npmjs.com/package/@nestjs/config)).
 - [x] Mailing ([nodemailer](https://www.npmjs.com/package/nodemailer)).
@@ -25,4 +25,3 @@ https://nestjs-boilerplate-test.herokuapp.com/docs
 Previous: [Main](readme.md)
 
 Next: [Installing and Running](installing-and-running.md)
-

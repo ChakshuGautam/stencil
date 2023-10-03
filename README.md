@@ -20,8 +20,8 @@ Microservice boilerplate for SamagraX
 
 ## Features
 
-- [x] Database ([typeorm](https://www.npmjs.com/package/typeorm)).
-- [x] Seeding.
+- [x] Database ([Prisma](https://www.prisma.io/)).
+- [ ] Seeding.
 - [x] Config Service ([@nestjs/config](https://www.npmjs.com/package/@nestjs/config)).
 - [x] Mailing ([nodemailer](https://www.npmjs.com/package/nodemailer)).
 - [x] Sign in and sign up via email.
@@ -92,7 +92,7 @@ If you want to automatically update dependencies, you can connect [Renovate](htt
 Generate migration
 
 ```bash
-npm run migration:generate -- src/database/migrations/CreateNameTable 
+npm run migration:generate -- src/database/migrations/CreateNameTable
 ```
 
 Run migration

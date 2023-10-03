@@ -1,21 +1,19 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { InjectRepository } from '@nestjs/typeorm';
-import { FileEntity } from './entities/file.entity';
-import { Repository } from 'typeorm';
 import { AllConfigType } from 'src/config/config.type';
 
 @Injectable()
 export class FilesService {
-  constructor(
-    private readonly configService: ConfigService<AllConfigType>,
-    @InjectRepository(FileEntity)
-    private readonly fileRepository: Repository<FileEntity>,
-  ) {}
+  constructor(private readonly configService: ConfigService<AllConfigType>) {}
 
   async uploadFile(
     file: Express.Multer.File | Express.MulterS3.File,
-  ): Promise<FileEntity> {
+  ): Promise<any> {
+    // TODO: Make this function configurable to work with different providers like:
+    // 1. S3
+    // 2. Minio (make this default)
+    // 3. Local on-disk storage
+
     if (!file) {
       throw new HttpException(
         {
@@ -28,19 +26,18 @@ export class FilesService {
       );
     }
 
-    const path = {
-      local: `/${this.configService.get('app.apiPrefix', { infer: true })}/v1/${
-        file.path
-      }`,
-      s3: (file as Express.MulterS3.File).location,
-    };
+    // const path = {
+    //   local: `/${this.configService.get('app.apiPrefix', { infer: true })}/v1/${file.path
+    //     }`,
+    //   s3: (file as Express.MulterS3.File).location,
+    // };
 
-    return this.fileRepository.save(
-      this.fileRepository.create({
-        path: path[
-          this.configService.getOrThrow('file.driver', { infer: true })
-        ],
-      }),
-    );
+    return await new Promise((resolve, reject) => {
+      try {
+        return resolve('file uploaded successfully!');
+      } catch (error) {
+        return reject(error);
+      }
+    });
   }
 }
