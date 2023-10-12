@@ -1,6 +1,11 @@
-# Microservice boilerplate for SamagraX
+<h1 align="center">Stencil</h1>
+<h4 align="center">Microservice boilerplate for SamagraX</h4>
 
-![github action status](https://github.com/brocoders/nestjs-boilerplate/actions/workflows/docker-e2e.yml/badge.svg)
+<div align="center">
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ChakshuGautam/stencil/tree/gitpod)
+
+</div>
 
 ## Description
 
