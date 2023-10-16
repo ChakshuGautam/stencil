@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Module } from '@nestjs/common';
 import { FilesController } from './files.controller';
-import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { diskStorage } from 'multer';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
@@ -8,6 +7,8 @@ import { S3Client } from '@aws-sdk/client-s3';
 import multerS3 from 'multer-s3';
 import { FilesService } from './files.service';
 import { AllConfigType } from 'src/config/config.type';
+import { MulterModule } from '@nestjs/platform-fastify';
+import { Request } from 'express'; //using express's request for type compatibility
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { AllConfigType } from 'src/config/config.type';
           local: () =>
             diskStorage({
               destination: './files',
-              filename: (request, file, callback) => {
+              filename: (request: Request, file, callback) => { // Use Express Request here
                 callback(
                   null,
                   `${randomStringGenerator()}.${file.originalname
@@ -50,7 +51,7 @@ import { AllConfigType } from 'src/config/config.type';
               }),
               acl: 'public-read',
               contentType: multerS3.AUTO_CONTENT_TYPE,
-              key: (request, file, callback) => {
+              key: (request: Request, file, callback) => { // Use Express Request here
                 callback(
                   null,
                   `${randomStringGenerator()}.${file.originalname
@@ -64,7 +65,7 @@ import { AllConfigType } from 'src/config/config.type';
         };
 
         return {
-          fileFilter: (request, file, callback) => {
+          fileFilter: (request: Request, file, callback) => { // Use Express Request here
             if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
               return callback(
                 new HttpException(
@@ -82,10 +83,7 @@ import { AllConfigType } from 'src/config/config.type';
 
             callback(null, true);
           },
-          storage:
-            storages[
-              configService.getOrThrow('file.driver', { infer: true })
-            ](),
+          storage: storages[configService.getOrThrow('file.driver', { infer: true })](),
           limits: {
             fileSize: configService.get('file.maxFileSize', { infer: true }),
           },

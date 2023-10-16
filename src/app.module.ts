@@ -18,6 +18,7 @@ import { HomeModule } from './home/home.module';
 import { AllConfigType } from './config/config.type';
 import { MailerModule } from './mailer/mailer.module';
 import { PrismaService } from './prisma/prisma.service';
+import { FastifyAppAdapter } from './fastify-adapter'; // Import the Fastify adapter
 
 @Module({
   imports: [
@@ -64,6 +65,6 @@ import { PrismaService } from './prisma/prisma.service';
     MailerModule,
     HomeModule,
   ],
-  providers: [PrismaService],
+  providers: [PrismaService, FastifyAppAdapter], // Add FastifyAppAdapter to the providers
 })
 export class AppModule {}
