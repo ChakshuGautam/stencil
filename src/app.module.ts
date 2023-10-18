@@ -65,6 +65,6 @@ import { FastifyAppAdapter } from './fastify-adapter'; // Import the Fastify ada
     MailerModule,
     HomeModule,
   ],
-  providers: [PrismaService, FastifyAppAdapter], // Add FastifyAppAdapter to the providers
+  providers: [PrismaService, FastifyAppAdapter],
 })
 export class AppModule {}

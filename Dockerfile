@@ -16,5 +16,6 @@ RUN sed -i 's/\r//g' /opt/startup.dev.sh
 WORKDIR /usr/src/app
 RUN cp env-example .env
 RUN npm run build
+RUN npx prisma generate
 
 CMD ["/opt/startup.dev.sh"]
