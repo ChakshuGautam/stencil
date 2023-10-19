@@ -5,7 +5,7 @@ import paramiko
 
 def deploy_locally():
     print("\nLocal Deployment:")
-    shutil.copy(".env-example", ".env")
+    shutil.copy("env-example", ".env")
     subprocess.run(["docker", "compose", "up", "-d"])
     print("Local deployment completed.")
 
