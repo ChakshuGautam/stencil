@@ -14,12 +14,12 @@ import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
 import validationOptions from './utils/validation-options';
 import { AllConfigType } from './config/config.type';
+import  {contentParser} from "fastify-multer"
+import {join} from "path"
+import helmet from "fastify-helmet"
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter(),
-  );
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule,new FastifyAdapter());
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
 
@@ -36,6 +36,18 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe(validationOptions));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
+  app.register(helmet, {
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: [`'self'`],
+        styleSrc: [`'self'`, `'unsafe-inline'`],
+        imgSrc: [`'self'`, 'data:', 'validator.swagger.io'],
+        scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
+      },
+    },
+  });
+  app.register(contentParser);
+  app.useStaticAssets({root:join(__dirname,"../../fastify-file-upload")})
   const options = new DocumentBuilder()
     .setTitle('API')
     .setDescription('API docs')
@@ -47,4 +59,5 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
   await app.listen(configService.getOrThrow('app.port', { infer: true }));
 }
+
 void bootstrap();

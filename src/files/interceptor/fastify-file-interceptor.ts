@@ -11,21 +11,6 @@ import { Observable } from 'rxjs';
 import FastifyMulter from 'fastify-multer';
 import { Options, Multer } from 'multer';
 
-interface MultipartFile {
-  toBuffer: () => Promise<Buffer>;
-  file: NodeJS.ReadableStream;
-  filepath: string;
-  fieldname: string;
-  filename: string;
-  encoding: string;
-  mimetype: string;
-  fields: import('fastify-multipart').MultipartFields;
-}
-
-// interface FastifyRequest {
-//   incomingFile: MultipartFile;
-// }
-
 type MulterInstance = any;
 export function FastifyFileInterceptor(
   fieldName: string,
@@ -55,7 +40,6 @@ export function FastifyFileInterceptor(
           (error: any) => {
             if (error) {
               // const error = transformException(err);
-              console.log(error);
               return reject(error);
             }
             resolve();

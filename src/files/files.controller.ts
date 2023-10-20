@@ -1,50 +1,63 @@
 import {
+  Body,
   Controller,
   Get,
-  Param,
   Post,
-  Response,
+  Req,
   UploadedFile,
-  UseGuards,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@nestjs/passport';
-import { FilesService } from './files.service';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
+import { diskStorage } from 'multer';
+import { AppService } from './files.service';
+import { MultipleFileDto } from './dto/multiple-files-dto';
+import { SingleFileDto } from './dto/single-file-dto';
+import { FastifyFileInterceptor } from './interceptor/fastify-file-interceptor';
+import { FastifyFilesInterceptor } from './interceptor/fastify-files-interceptor';
+import { fileMapper, filesMapper } from './utils/file-mapper';
+import { editFileName, imageFileFilter } from './utils/file-upload-util';
+@Controller()
+@ApiTags('Upload File ')
+export class AppController {
+  constructor(private readonly appService: AppService) {}
 
-@ApiTags('Files')
-@Controller({
-  path: 'files',
-  version: '1',
-})
-export class FilesController {
-  constructor(private readonly filesService: FilesService) {}
-
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
-  @Post('upload')
   @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        file: {
-          type: 'string',
-          format: 'binary',
-        },
-      },
-    },
-  })
-  @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(
-    @UploadedFile() file: Express.Multer.File | Express.MulterS3.File,
+  @Post('upload')
+  @UseInterceptors(
+    FastifyFileInterceptor('photo_url', {
+      storage: diskStorage({
+        destination: './upload/single',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  single(
+    @Req() req: Request,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() body: SingleFileDto,
   ) {
-    return this.filesService.uploadFile(file);
+    return { ...body, photo_url: fileMapper({ file, req }) };
   }
 
-  @Get(':path')
-  download(@Param('path') path, @Response() response) {
-    return response.sendFile(path, { root: './files' });
+  @ApiConsumes('multipart/form-data')
+  @Post('multiple-file')
+  @UseInterceptors(
+    FastifyFilesInterceptor('photo_url', 10, {
+      storage: diskStorage({
+        destination: './upload/single',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  multiple(
+    @Req() req: Request,
+    @UploadedFiles() files: Express.Multer.File[],
+    @Body() body: MultipleFileDto,
+  ) {
+    return { ...body, photo_url: filesMapper({ files, req }) };
   }
 }
