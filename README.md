@@ -21,6 +21,7 @@ Microservice boilerplate for SamagraX
 ## Features
 
 - [x] Database ([Prisma](https://www.prisma.io/)).
+- [x] User-Service integration using npm package. (https://github.com/techsavvyash/user-service).
 - [ ] Seeding.
 - [x] Config Service ([@nestjs/config](https://www.npmjs.com/package/@nestjs/config)).
 - [x] Mailing ([nodemailer](https://www.npmjs.com/package/nodemailer)).
