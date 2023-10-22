@@ -32,6 +32,8 @@ services:
       options:
         syslog-address: "tcp://host.docker.internal:50000"
         tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
+    depends_on:
+      - logstash
 
   setup:
       profiles:
@@ -117,6 +119,25 @@ services:
     depends_on:
       - elasticsearch
     restart: unless-stopped
+
+  logstash-axiom:
+    image: opensearchproject/logstash-oss-with-opensearch-output-plugin:7.16.2
+    ports:
+      - "12201:12201/udp"
+    volumes:
+      - ./logging/logstash/pipeline/axiom.conf:/usr/share/logstash/pipeline/logstash.conf
+    command: logstash -f /usr/share/logstash/pipeline/  
+
+  plop:
+    image: alpine
+    command: /bin/sh -c "while true; do echo My Message; sleep 60; done;"
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "udp://host.docker.internal:12201"
+        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
+    depends_on:
+      - logstash-axiom
 
 networks:
   elk:
