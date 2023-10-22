@@ -1,4 +1,3 @@
-
 import * as winston from 'winston';
 
 const logLevels = {
@@ -24,7 +23,7 @@ const winstonLogger = winston.createLogger({
     winston.format.timestamp(),
     winston.format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] ${level}: ${message}`;
-    })
+    }),
   ),
   transports: [new winston.transports.Console()],
 });

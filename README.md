@@ -40,10 +40,11 @@ Microservice boilerplate for SamagraX
 git clone --depth 1 https://github.com/brocoders/nestjs-boilerplate.git my-app
 cd my-app/
 cp env-example .env
+docker compose up setup
 docker compose up -d
 ```
 
-For check status run
+For checking status of containers run
 
 ```bash
 docker compose logs

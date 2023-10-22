@@ -5,9 +5,7 @@ import { CustomLogger } from '../logging/custom-logger'; // Import the CustomLog
 
 @Injectable()
 export class HomeService {
-  constructor(
-    private configService: ConfigService<AllConfigType>,
-  ) {}
+  constructor(private configService: ConfigService<AllConfigType>) {}
 
   appInfo() {
     // Use the CustomLogger to log a message

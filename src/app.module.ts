@@ -65,6 +65,6 @@ import { CustomLogger } from './logging/custom-logger';
     MailerModule,
     HomeModule,
   ],
-  providers: [PrismaService,CustomLogger],
+  providers: [PrismaService, CustomLogger],
 })
 export class AppModule {}
