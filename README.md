@@ -28,6 +28,7 @@ Microservice boilerplate for SamagraX
 ## Features
 
 - [x] Database ([Prisma](https://www.prisma.io/)).
+- [x] User-Service integration using npm package. (https://github.com/techsavvyash/user-service).
 - [ ] Seeding.
 - [x] Config Service ([@nestjs/config](https://www.npmjs.com/package/@nestjs/config)).
 - [x] Mailing ([nodemailer](https://www.npmjs.com/package/nodemailer)).
@@ -83,6 +84,41 @@ npm run seed:run
 
 npm run start:dev
 ```
+
+# Dockerized Development with Visual Studio Code
+
+Streamline your development process by running your project inside a Docker container. Follow these steps to get started:
+
+1. **Open the Project in Visual Studio Code**
+   - Launch Visual Studio Code and open your project.
+
+2. **Open the Project in a Docker Container**
+   - To work within a Docker container, press `Control+P` to bring up the command palette.
+   - Type in `> Reopen in container` and select it. This will open your project inside a Docker container.
+
+## Troubleshooting
+
+If you encounter the following error upon starting the project:
+
+```shell
+node:internal/modules/cjs/loader:1080
+  throw err;
+  ^
+
+Error: Cannot find module '/root/.vscode-server/data/User/workspaceStorage/b2d44a48cb3eb862caab3a51d86d99df/ms-vscode.js-debug/bootloader.js'
+Require stack:
+- internal/preload
+```
+
+You can resolve it by following these steps:
+
+1. **Disable Auto Attach in VS Code**
+   - Open the command palette in Visual Studio Code.
+   - Type > Toggle Auto Attach and set it to "Disabled."
+
+2. **Re-enable Auto Attach**
+   - Open the command palette again.
+   - Type > Toggle Auto Attach and set it to "Always" or "Smart".
 
 ## Links
 
