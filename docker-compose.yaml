@@ -57,8 +57,123 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 4000:4000
-volumes:
-  fa-config:
+      - ${APP_PORT}:${APP_PORT}
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://host.docker.internal:50000"
+        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
+    depends_on:
+      - logstash
+
+  setup:
+      profiles:
+        - setup
+      build:
+        context: logging/setup/
+        args:
+          ELASTIC_VERSION: ${ELASTIC_VERSION}
+      init: true
+      volumes:
+        - ./logging/setup/entrypoint.sh:/entrypoint.sh:ro,Z
+        - ./logging/setup/lib.sh:/lib.sh:ro,Z
+        - ./logging/setup/roles:/roles:ro,Z
+      environment:
+        ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+        LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
+        KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+        METRICBEAT_INTERNAL_PASSWORD: ${METRICBEAT_INTERNAL_PASSWORD:-}
+        FILEBEAT_INTERNAL_PASSWORD: ${FILEBEAT_INTERNAL_PASSWORD:-}
+        HEARTBEAT_INTERNAL_PASSWORD: ${HEARTBEAT_INTERNAL_PASSWORD:-}
+        MONITORING_INTERNAL_PASSWORD: ${MONITORING_INTERNAL_PASSWORD:-}
+        BEATS_SYSTEM_PASSWORD: ${BEATS_SYSTEM_PASSWORD:-}
+      networks:
+        - elk
+      depends_on:
+        - elasticsearch
+
+  elasticsearch:
+    build:
+      context: logging/elasticsearch/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    volumes:
+      - ./logging/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - elasticsearch:/usr/share/elasticsearch/data:Z
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      node.name: elasticsearch
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      discovery.type: single-node
+    networks:
+      - elk
+    restart: unless-stopped
+
+  logstash:
+    build:
+      context: logging/logstash/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    volumes:
+      - ./logging/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
+      - ./logging/logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
+    ports:
+      - 5044:5044
+      - 50000:50000/tcp
+      - 50000:50000/udp
+      - 9600:9600
+    environment:
+      LS_JAVA_OPTS: -Xms256m -Xmx256m
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+
+  kibana:
+    build:
+      context: logging/kibana/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    volumes:
+      - ./logging/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
+    ports:
+      - 5601:5601
+    environment:
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+    restart: unless-stopped
+
+  logstash-axiom:
+    image: opensearchproject/logstash-oss-with-opensearch-output-plugin:7.16.2
+    ports:
+      - "12201:12201/udp"
+    volumes:
+      - ./logging/logstash/pipeline/axiom.conf:/usr/share/logstash/pipeline/logstash.conf
+    command: logstash -f /usr/share/logstash/pipeline/  
+
+  plop:
+    image: alpine
+    command: /bin/sh -c "while true; do echo My Message; sleep 60; done;"
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "udp://host.docker.internal:12201"
+        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
+    depends_on:
+      - logstash-axiom
+
 networks:
+  elk:
+    driver: bridge
   default:
+volumes:
+  elasticsearch:
+  fa-config:

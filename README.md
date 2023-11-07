@@ -45,22 +45,37 @@ Microservice boilerplate for SamagraX
 ## Quick run
 
 ```bash
-git clone --depth 1 https://github.com/brocoders/nestjs-boilerplate.git my-app
+git clone --depth 1 https://github.com/ChakshuGautam/stencil.git my-app
 cd my-app/
 cp env-example .env
+docker compose up setup
 docker compose up -d
 ```
 
-For check status run
+For checking status of containers run
 
 ```bash
 docker compose logs
 ```
 
+## Logging
+
+Stencil provides support for logging in 2 modes:
+
+### Axiom Logging
+
+Axiom provides structured, customizable logging with features like custom log levels, log message formatting, filtering, and flexible storage options. Make sure to replace the values of `DATASET_NAME` and `TOKEN` in `logging/logstash/pipeline/axiom.conf`
+
+### ELK (Elasticsearch, Logstash, Kibana) Logging
+
+ELK offers centralized log management using Elasticsearch for storage, Logstash for parsing and transformation, and Kibana for real-time analytics, custom dashboards, and scalability. Stencil provides out of the box support for ELK stack. Once all the containers are up, go to https://localhost:5601 to access kibana console. The default username is `elastic` and password is `changeme` which can be configured through .env .
+
+
+
 ## Comfortable development
 
 ```bash
-git clone --depth 1 https://github.com/brocoders/nestjs-boilerplate.git my-app
+git clone --depth 1 https://github.com/ChakshuGautam/stencil.git my-app
 cd my-app/
 cp env-example .env
 ```
