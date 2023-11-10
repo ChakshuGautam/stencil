@@ -140,6 +140,7 @@ You can resolve it by following these steps:
 - Swagger: http://localhost:3000/docs
 - Adminer (client for DB): http://localhost:8080
 - Maildev: http://localhost:1080
+- Kibana: http://localhost:5601
 
 ## Automatic update of dependencies
 

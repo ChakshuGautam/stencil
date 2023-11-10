@@ -119,7 +119,7 @@ services:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
       - ./logging/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,Z
-      - ./logging/logstash/pipeline:/usr/share/logstash/pipeline:ro,Z
+      - ./logging/logstash/pipeline/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro,Z
     ports:
       - 5044:5044
       - 50000:50000/tcp
