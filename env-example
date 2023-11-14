@@ -90,3 +90,11 @@ FILEBEAT_INTERNAL_PASSWORD=''
 HEARTBEAT_INTERNAL_PASSWORD=''
 MONITORING_INTERNAL_PASSWORD=''
 BEATS_SYSTEM_PASSWORD=''
+
+STORAGE_CONTAINER_NAME=your-container-name
+STORAGE_ENDPOINT=your-storage-endpoint
+STORAGE_PORT=your-storage-port
+STORAGE_USE_SSL=true  # Set to 'true' if you want to use SSL, or 'false' if not.
+STORAGE_ACCESS_KEY=your-access-key
+STORAGE_SECRET_KEY=your-secret-key
+STORAGE_MODE=''
