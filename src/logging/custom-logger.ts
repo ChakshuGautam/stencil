@@ -30,7 +30,7 @@ const winstonLogger = winston.createLogger({
 
 winston.addColors(logColors);
 
-export class CustomLogger {
+export class Logger {
   static error(message: string, context: string) {
     winstonLogger.log({ level: 'error', message, context });
   }
@@ -51,7 +51,6 @@ export class CustomLogger {
     winstonLogger.log({ level: 'debug', message, context });
   }
 
-  // Add the following methods to also log to the default Nest.js logger
   static log(message: string, context: string) {
     winstonLogger.log({ level: 'info', message, context });
   }

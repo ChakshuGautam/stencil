@@ -13,7 +13,7 @@ module.exports = {
         if (
           node.callee.type === 'MemberExpression' &&
           node.callee.object.type === 'Identifier' &&
-          node.callee.object.name === 'CustomLogger' &&
+          node.callee.object.name === 'Logger' &&
           node.callee.property.type === 'Identifier' &&
           /^log(?:$|[A-Z])/.test(node.callee.property.name) // Check for log methods
         ) {

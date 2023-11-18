@@ -7,7 +7,7 @@ module.exports = {
       CallExpression(node) {
         if (
           node.callee.type === 'MemberExpression' &&
-          node.callee.object.name === 'CustomLogger' && // Replace with your logger's name
+          node.callee.object.name === 'Logger' && // Replace with your logger's name
           (node.callee.property.name === 'info' || node.callee.property.name === 'error' || node.callee.property.name === 'warn') // Add more log level functions if needed
         ) {
           if (node.arguments.length >= 3) {

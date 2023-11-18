@@ -19,7 +19,7 @@ import { AllConfigType } from './config/config.type';
 import { MailerModule } from './mailer/mailer.module';
 import { PrismaService } from './prisma/prisma.service';
 import { user } from '@techsavvyash/user-service';
-import { CustomLogger } from './logging/custom-logger';
+import { Logger } from './logging/custom-logger';
 
 @Module({
   imports: [
@@ -67,6 +67,6 @@ import { CustomLogger } from './logging/custom-logger';
     HomeModule,
     user.UserModule,
   ],
-  providers: [PrismaService, CustomLogger],
+  providers: [PrismaService, Logger],
 })
 export class AppModule {}
