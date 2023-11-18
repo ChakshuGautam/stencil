@@ -159,17 +159,6 @@ services:
       - ./logging/logstash/pipeline/axiom.conf:/usr/share/logstash/pipeline/logstash.conf
     command: logstash -f /usr/share/logstash/pipeline/  
 
-  plop:
-    image: alpine
-    command: /bin/sh -c "while true; do echo My Message; sleep 60; done;"
-    logging:
-      driver: syslog
-      options:
-        syslog-address: "udp://host.docker.internal:12201"
-        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
-    depends_on:
-      - logstash-axiom
-
 networks:
   elk:
     driver: bridge
