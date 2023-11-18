@@ -8,8 +8,9 @@ import {
   Get,
   Res,
   Body,
+  Query
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FastifyFileInterceptor, MultipartFile } from './files.interceptor';
 import { Express } from 'express';
 import { Response } from 'express';
 
@@ -18,10 +19,10 @@ export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FastifyFileInterceptor('file', {}))
   async uploadFile(
-    @UploadedFile() file: Express.Multer.File,
-    @Param('destination') destination: string,
+    @UploadedFile() file: MultipartFile,
+    @Query('destination') destination: string, // Use @Query to retrieve the destination from the query parameters
     @Body('filename') filename: string,
   ): Promise<{
     statusCode: number;
@@ -29,7 +30,7 @@ export class FilesController {
     file?: { url: string } | undefined;
   }> {
     try {
-      const directory = await this.filesService.upload(file, filename);
+      const directory = await this.filesService.upload(file, destination);
       return {
         statusCode: 200,
         message: 'File uploaded successfully',

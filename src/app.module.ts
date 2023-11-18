@@ -20,6 +20,7 @@ import { MailerModule } from './mailer/mailer.module';
 import { PrismaService } from './prisma/prisma.service';
 import { user } from '@techsavvyash/user-service';
 import { CustomLogger } from './logging/custom-logger';
+import { FastifyAdapter } from '@nestjs/platform-fastify';
 
 @Module({
   imports: [
@@ -67,6 +68,6 @@ import { CustomLogger } from './logging/custom-logger';
     HomeModule,
     user.UserModule,
   ],
-  providers: [PrismaService, CustomLogger],
+  providers: [PrismaService, CustomLogger, FastifyAdapter],
 })
 export class AppModule {}

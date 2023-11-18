@@ -43,6 +43,8 @@ export class FilesService {
             'Content-Type': file.mimetype,
           },
         };
+        // const content = await file();
+        console.log("This is the file object: ",file());
         await this.storage.putObject(
           process.env.STORAGE_CONTAINER_NAME,
           destination,
@@ -59,6 +61,7 @@ export class FilesService {
         return destination;
       }
     } catch (error) {
+      console.log(error)
       console.error(`Error uploading file: ${error.message}`);
       throw new Error('File upload failed');
     }
