@@ -1,3 +1,5 @@
+const rulesDirPlugin = require('eslint-plugin-rulesdir');
+rulesDirPlugin.RULES_DIR = ['.eslint-custom-rules/format'];
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -5,7 +7,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: ['@typescript-eslint/eslint-plugin','rulesdir'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
@@ -26,6 +28,7 @@ module.exports = {
     'require-await': 'off',
     '@typescript-eslint/require-await': 'error',
     '@typescript-eslint/no-floating-promises': 'error',
+    'rulesdir/format': 'error',
     'no-restricted-syntax': [
       'error',
       {

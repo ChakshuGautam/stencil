@@ -28,6 +28,7 @@ Microservice boilerplate for SamagraX
 ## Features
 
 - [x] Database ([Prisma](https://www.prisma.io/)).
+- [x] User-Service integration using npm package. (https://github.com/techsavvyash/user-service).
 - [ ] Seeding.
 - [x] Config Service ([@nestjs/config](https://www.npmjs.com/package/@nestjs/config)).
 - [x] Mailing ([nodemailer](https://www.npmjs.com/package/nodemailer)).
@@ -44,22 +45,37 @@ Microservice boilerplate for SamagraX
 ## Quick run
 
 ```bash
-git clone --depth 1 https://github.com/brocoders/nestjs-boilerplate.git my-app
+git clone --depth 1 https://github.com/ChakshuGautam/stencil.git my-app
 cd my-app/
 cp env-example .env
+docker compose up setup
 docker compose up -d
 ```
 
-For check status run
+For checking status of containers run
 
 ```bash
 docker compose logs
 ```
 
+## Logging
+
+Stencil provides support for logging in 2 modes:
+
+### Axiom Logging
+
+Axiom provides structured, customizable logging with features like custom log levels, log message formatting, filtering, and flexible storage options. Make sure to replace the values of `DATASET_NAME` and `TOKEN` in `logging/logstash/pipeline/axiom.conf`
+
+### ELK (Elasticsearch, Logstash, Kibana) Logging
+
+ELK offers centralized log management using Elasticsearch for storage, Logstash for parsing and transformation, and Kibana for real-time analytics, custom dashboards, and scalability. Stencil provides out of the box support for ELK stack. Once all the containers are up, go to https://localhost:5601 to access kibana console. The default username is `elastic` and password is `changeme` which can be configured through .env .
+
+
+
 ## Comfortable development
 
 ```bash
-git clone --depth 1 https://github.com/brocoders/nestjs-boilerplate.git my-app
+git clone --depth 1 https://github.com/ChakshuGautam/stencil.git my-app
 cd my-app/
 cp env-example .env
 ```
@@ -124,6 +140,7 @@ You can resolve it by following these steps:
 - Swagger: http://localhost:3000/docs
 - Adminer (client for DB): http://localhost:8080
 - Maildev: http://localhost:1080
+- Kibana: http://localhost:5601
 
 ## Automatic update of dependencies
 

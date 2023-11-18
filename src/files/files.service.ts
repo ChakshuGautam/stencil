@@ -1,43 +1,88 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { AllConfigType } from 'src/config/config.type';
+import SMCloudStore = require('smcloudstore');
+import fastify, { FastifyInstance } from 'fastify';
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
-@Injectable()
+interface MinioConfig {
+  endPoint: string;
+  port: number;
+  useSSL: boolean;
+  accessKey: string;
+  secretKey: string;
+  bucketName: string;
+}
+
 export class FilesService {
-  constructor(private readonly configService: ConfigService<AllConfigType>) {}
+  private readonly storage: any;
+  private readonly useMinio: boolean;
+  private readonly fastifyInstance: FastifyInstance;
 
-  async uploadFile(
-    file: Express.Multer.File | Express.MulterS3.File,
-  ): Promise<any> {
-    // TODO: Make this function configurable to work with different providers like:
-    // 1. S3
-    // 2. Minio (make this default)
-    // 3. Local on-disk storage
+  constructor() {
+    this.useMinio = process.env.STORAGE_MODE?.toLowerCase() === 'minio';
 
-    if (!file) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            file: 'selectFile',
-          },
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
+    if (this.useMinio) {
+      const minioConfig: MinioConfig = {
+        endPoint: process.env.STORAGE_ENDPOINT || '',
+        port: +(process.env.STORAGE_PORT || '9000'),
+        useSSL: process.env.STORAGE_USE_SSL === 'false',
+        accessKey: process.env.STORAGE_ACCESS_KEY || '',
+        secretKey: process.env.STORAGE_SECRET_KEY || '',
+        bucketName: process.env.STORAGE_CONTAINER_NAME || '',
+      };
+      this.storage = SMCloudStore.Create('minio', minioConfig);
+    } else {
+      this.fastifyInstance = fastify();
     }
+  }
 
-    // const path = {
-    //   local: `/${this.configService.get('app.apiPrefix', { infer: true })}/v1/${file.path
-    //     }`,
-    //   s3: (file as Express.MulterS3.File).location,
-    // };
+  async upload(file: any, destination: string): Promise<string> {
+    try {
+      if (this.useMinio) {
+        const options = {
+          metadata: {
+            'Content-Type': file.mimetype,
+          },
+        };
+        // const content = await file();
+        console.log("This is the file object: ",file());
+        await this.storage.putObject(
+          process.env.STORAGE_CONTAINER_NAME,
+          destination,
+          file.buffer,
+          options,
+        );
+        return destination;
+      } else {
+        const uploadsDir = path.join(process.cwd(), 'uploads');
+        const localFilePath = path.join(uploadsDir, destination);
 
-    return await new Promise((resolve, reject) => {
-      try {
-        return resolve('file uploaded successfully!');
-      } catch (error) {
-        return reject(error);
+        await fs.mkdir(uploadsDir, { recursive: true });
+        await fs.writeFile(localFilePath, file.buffer);
+        return destination;
       }
-    });
+    } catch (error) {
+      console.log(error)
+      console.error(`Error uploading file: ${error.message}`);
+      throw new Error('File upload failed');
+    }
+  }
+
+  async download(destination: string): Promise<any> {
+    try {
+      if (this.useMinio) {
+        const fileStream = await this.storage.getObject(
+          process.env.STORAGE_CONTAINER_NAME,
+          destination,
+        );
+        return fileStream;
+      } else {
+        const localFilePath = path.join(__dirname, 'uploads', destination);
+        const fileStream = await fs.readFile(localFilePath);
+        return fileStream;
+      }
+    } catch (error) {
+      console.error(`Error downloading file: ${error.message}`);
+      throw new Error('File download failed');
+    }
   }
 }
