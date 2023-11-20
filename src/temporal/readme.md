@@ -18,7 +18,9 @@ This project demonstrates how to integrate Temporal with NestJS to execute workf
 You can run Temporal server using Docker with the following command:
 
 ```sh
-docker-compose -f https://github.com/temporalio/docker-compose/blob/main/docker/docker-compose.yml up
+git clone https://github.com/temporalio/docker-compose.git
+cd  docker-compose
+docker-compose up
 ```
 
 ## How to Create and Run a Worker
@@ -112,7 +114,7 @@ export class AppController {
 Send a GET request to the `/temporal` endpoint with a `name` query parameter:
 
 ```sh
-curl http://localhost:3000/temporal?name=YourName
+curl http://localhost:3000/api/temporal?name=YourName
 ```
 
 Replace `YourName` with the actual name you want to pass to the workflow.
