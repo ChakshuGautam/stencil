@@ -16,7 +16,7 @@ module.exports = {
       type: 'category',
       label: 'Logging',
       collapsed: false,
-      items: ['logging/overview','logging/elk_setup', 'logging/custom_logger'],
+      items: ['logging/overview','logging/elk_setup', 'logging/custom_logger', 'logging/what_to_capture'],
     },
   ]
 };
