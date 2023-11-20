@@ -24,6 +24,7 @@ Microservice boilerplate for SamagraX
 - [Automatic update of dependencies](#automatic-update-of-dependencies)
 - [Database utils](#database-utils)
 - [Tests](#tests)
+- [Temporal](#temporal)
 
 ## Features
 
@@ -182,3 +183,7 @@ docker compose -f docker-compose.ci.yaml --env-file env-example -p ci up --build
 ```bash
 docker run --rm jordi/ab -n 100 -c 100 -T application/json -H "Authorization: Bearer USER_TOKEN" -v 2 http://<server_ip>:3000/api/v1/users
 ```
+
+
+## Temporal Setup
+ [Click here](./src/temporal/readme.md)

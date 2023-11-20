@@ -18,6 +18,9 @@ import { HomeModule } from './home/home.module';
 import { AllConfigType } from './config/config.type';
 import { MailerModule } from './mailer/mailer.module';
 import { PrismaService } from './prisma/prisma.service';
+import { TemporalService } from './temporal/temporal.service';
+import { TemporalController } from './temporal/temporal.controller';
+import { _TemporalModule } from './temporal/temporal.module';
 
 @Module({
   imports: [
@@ -63,7 +66,9 @@ import { PrismaService } from './prisma/prisma.service';
     MailModule,
     MailerModule,
     HomeModule,
+    _TemporalModule,
   ],
-  providers: [PrismaService],
+  providers: [PrismaService, TemporalService],
+  controllers: [TemporalController],
 })
 export class AppModule {}
