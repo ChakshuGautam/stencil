@@ -2,9 +2,9 @@ module.exports = {
   docs: [
     {
       type: 'category',
-      label: 'Getting Started',
+      label: 'Stencil',
       collapsed: false,
-      items: ['engineering'],
+      items: ['home'],
     },
     {
       type: 'category',
