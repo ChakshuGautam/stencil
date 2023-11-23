@@ -31,6 +31,12 @@ module.exports = {
     },
     {
       type: 'category',
+      label: 'CLI',
+      collapsed: false,
+      items: ['cli/introduction', 'cli/installation']
+    },
+    {
+      type: 'category',
       label: 'User Service',
       collapsed: false,
       items: ['user-service/introduction'],
