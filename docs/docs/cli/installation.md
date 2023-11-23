@@ -54,7 +54,6 @@ In this, the cli does the following:
 - Generates the `.github` folder with `ISSUE_TEMPLATE` and `workflows` sub-directories
 - Generates the `.devcontainer` folder with `devcontainer.json` file
 
-
 ### Future Scope
 
 - Integrate `nestjs-monitor` as an npm package

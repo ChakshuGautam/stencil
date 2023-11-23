@@ -29,5 +29,11 @@ module.exports = {
       collapsed: false,
       items: ['monitoring/nestjs-monitor', 'monitoring/setup'],
     },
+    {
+      type: 'category',
+      label: 'CLI',
+      collapsed: false,
+      items: ['cli/introduction', 'cli/installation'],
+    },
   ],
 };
