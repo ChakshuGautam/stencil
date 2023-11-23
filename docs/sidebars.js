@@ -4,7 +4,7 @@ module.exports = {
       type: 'category',
       label: 'Stencil',
       collapsed: false,
-      items: ['home'],
+      items: ['home','development_setup'],
     },
     {
       type: 'category',

@@ -13,7 +13,7 @@
 
 Microservice boilerplate for SamagraX
 
-[Full documentation here](https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md)
+[Full documentation here](https://stencil-docs-theta.vercel.app/)
 
 ## Table of Contents
 
@@ -143,48 +143,6 @@ You can resolve it by following these steps:
 ## Automatic update of dependencies
 
 If you want to automatically update dependencies, you can connect [Renovate](https://github.com/marketplace/renovate) for your project.
-
-## Database utils
-
-Generate migration
-
-```bash
-npm run migration:generate -- src/database/migrations/CreateNameTable
-```
-
-Run migration
-
-```bash
-npm run migration:run
-```
-
-Revert migration
-
-```bash
-npm run migration:revert
-```
-
-Drop all tables in database
-
-```bash
-npm run schema:drop
-```
-
-Run seed
-
-```bash
-npm run seed:run
-```
-
-## Tests
-
-```bash
-# unit tests
-npm run test
-
-# e2e tests
-npm run test:e2e
-```
 
 ## Tests in Docker
 

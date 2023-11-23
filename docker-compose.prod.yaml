@@ -52,6 +52,20 @@ services:
       POSTGRES_PASSWORD: ${SHADOW_DATABASE_PASSWORD}
       POSTGRES_DB: ${SHADOW_DATABASE_NAME}
 
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://host.docker.internal:50000"
+        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
+    depends_on:
+      - logstash
+
   setup:
       profiles:
         - setup
