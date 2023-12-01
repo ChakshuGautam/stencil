@@ -21,8 +21,17 @@ import { PrismaService } from './prisma/prisma.service';
 import { user } from '@techsavvyash/user-service';
 import { Logger } from './logging/custom-logger';
 
+import { MonitoringModule } from '@techsavvyash/nestjs-monitor';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+
 @Module({
   imports: [
+    MonitoringModule,
+    PrometheusModule.register({
+      defaultMetrics: {
+        enabled: false,
+      },
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [
