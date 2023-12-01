@@ -2,9 +2,9 @@ module.exports = {
   docs: [
     {
       type: 'category',
-      label: 'Getting Started',
+      label: 'Stencil',
       collapsed: false,
-      items: ['engineering'],
+      items: ['home','development_setup'],
     },
     {
       type: 'category',
@@ -31,9 +31,26 @@ module.exports = {
     },
     {
       type: 'category',
+      label: 'CLI',
+      collapsed: false,
+      items: ['cli/introduction', 'cli/installation']
+    },
+    {
+      type: 'category',
       label: 'User Service',
       collapsed: false,
       items: ['user-service/introduction'],
+    },
+    {
+      type: 'category',
+      label: 'Benchmarking',
+      collapsed: false,
+      items: [
+        'benchmarking/what_are_we_using',
+        'benchmarking/boilerplate_setup',
+        'benchmarking/configuration_guide',
+        'benchmarking/interpreting_the_results',
+      ],
     },
   ],
 };

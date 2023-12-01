@@ -13,7 +13,7 @@
 
 Microservice boilerplate for SamagraX
 
-[Full documentation here](https://github.com/brocoders/nestjs-boilerplate/blob/main/docs/readme.md)
+[Full documentation here](https://stencil-docs-theta.vercel.app/)
 
 ## Table of Contents
 
@@ -69,8 +69,6 @@ Axiom provides structured, customizable logging with features like custom log le
 ### ELK (Elasticsearch, Logstash, Kibana) Logging
 
 ELK offers centralized log management using Elasticsearch for storage, Logstash for parsing and transformation, and Kibana for real-time analytics, custom dashboards, and scalability. Stencil provides out of the box support for ELK stack. Once all the containers are up, go to https://localhost:5601 to access kibana console. The default username is `elastic` and password is `changeme` which can be configured through .env .
-
-
 
 ## Comfortable development
 
@@ -146,48 +144,6 @@ You can resolve it by following these steps:
 
 If you want to automatically update dependencies, you can connect [Renovate](https://github.com/marketplace/renovate) for your project.
 
-## Database utils
-
-Generate migration
-
-```bash
-npm run migration:generate -- src/database/migrations/CreateNameTable
-```
-
-Run migration
-
-```bash
-npm run migration:run
-```
-
-Revert migration
-
-```bash
-npm run migration:revert
-```
-
-Drop all tables in database
-
-```bash
-npm run schema:drop
-```
-
-Run seed
-
-```bash
-npm run seed:run
-```
-
-## Tests
-
-```bash
-# unit tests
-npm run test
-
-# e2e tests
-npm run test:e2e
-```
-
 ## Tests in Docker
 
 ```bash
@@ -199,3 +155,27 @@ docker compose -f docker-compose.ci.yaml --env-file env-example -p ci up --build
 ```bash
 docker run --rm jordi/ab -n 100 -c 100 -T application/json -H "Authorization: Bearer USER_TOKEN" -v 2 http://<server_ip>:3000/api/v1/users
 ```
+
+# Documentation
+
+You can follow the below steps for building the docs locally:
+
+1. Navigate to the docs directory
+
+```shell
+cd docs
+```
+
+2. Install dependencies
+
+```shell
+npm install
+```
+
+3. Run the docs website
+
+```shell
+npm start
+```
+
+Apart from accessing the docs locally, you can also refer to the [online documentation of stencil](https://stencil-docs-theta.vercel.app/)

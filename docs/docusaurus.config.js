@@ -44,8 +44,8 @@ module.exports = {
       items: [
         {
           type: 'doc',
-          docId: 'engineering',
-          label: 'Engineering',
+          docId: 'home',
+          label: 'Stencil Documentation',
           position: 'left'
         },
         {
