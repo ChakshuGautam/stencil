@@ -36,7 +36,7 @@ async function bootstrap() {
   });
 
   // Register fastify-multipart middleware
-  app.register(fastifyMultipart, {
+  await app.register(fastifyMultipart, {
     attachFieldsToBody: true,
   });
 
